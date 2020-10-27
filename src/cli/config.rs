@@ -178,7 +178,7 @@ pub struct Config<'a> {
 
     /// If a user wants to perform image operations on input image, they will need to provide
     /// the image operation commands.
-    /// THe value set here should be presented as a [sic_image_engine::engine::Program].
+    /// THe value set here should be presented as a [naut_image_engine::engine::Program].
     /// If no program is present, an empty vec should be provided.
     pub image_operations_program: Vec<Instr>,
 }

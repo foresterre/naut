@@ -592,6 +592,93 @@ dependencies = [
 ]
 
 [[package]]
+name = "naut"
+version = "0.14.3"
+dependencies = [
+ "anyhow",
+ "atty",
+ "clap",
+ "flate2",
+ "globwalk",
+ "inflate",
+ "naut_cli_ops",
+ "naut_core",
+ "naut_image_engine",
+ "naut_io",
+ "naut_parser",
+ "open",
+ "parameterized",
+ "strum",
+]
+
+[[package]]
+name = "naut_cli_ops"
+version = "0.14.3"
+dependencies = [
+ "clap",
+ "naut_core",
+ "naut_image_engine",
+ "naut_parser",
+ "naut_testing",
+ "parameterized",
+ "strum",
+ "strum_macros",
+ "thiserror",
+]
+
+[[package]]
+name = "naut_core"
+version = "0.14.3"
+dependencies = [
+ "image",
+]
+
+[[package]]
+name = "naut_image_engine"
+version = "0.14.3"
+dependencies = [
+ "imageproc",
+ "naut_core",
+ "naut_io",
+ "naut_testing",
+ "rusttype",
+ "strum",
+ "strum_macros",
+ "thiserror",
+]
+
+[[package]]
+name = "naut_io"
+version = "0.14.3"
+dependencies = [
+ "naut_core",
+ "naut_testing",
+ "parameterized",
+ "thiserror",
+]
+
+[[package]]
+name = "naut_parser"
+version = "0.14.3"
+dependencies = [
+ "naut_core",
+ "naut_image_engine",
+ "naut_testing",
+ "parameterized",
+ "pest",
+ "pest_derive",
+ "thiserror",
+]
+
+[[package]]
+name = "naut_testing"
+version = "0.14.3"
+dependencies = [
+ "naut_core",
+ "parameterized",
+]
+
+[[package]]
 name = "noop_proc_macro"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1068,93 +1155,6 @@ dependencies = [
  "digest",
  "fake-simd",
  "opaque-debug",
-]
-
-[[package]]
-name = "sic"
-version = "0.14.0"
-dependencies = [
- "anyhow",
- "atty",
- "clap",
- "flate2",
- "globwalk",
- "inflate",
- "open",
- "parameterized",
- "sic_cli_ops",
- "sic_core",
- "sic_image_engine",
- "sic_io",
- "sic_parser",
- "strum",
-]
-
-[[package]]
-name = "sic_cli_ops"
-version = "0.14.0"
-dependencies = [
- "clap",
- "parameterized",
- "sic_core",
- "sic_image_engine",
- "sic_parser",
- "sic_testing",
- "strum",
- "strum_macros",
- "thiserror",
-]
-
-[[package]]
-name = "sic_core"
-version = "0.14.0"
-dependencies = [
- "image",
-]
-
-[[package]]
-name = "sic_image_engine"
-version = "0.14.0"
-dependencies = [
- "imageproc",
- "rusttype",
- "sic_core",
- "sic_io",
- "sic_testing",
- "strum",
- "strum_macros",
- "thiserror",
-]
-
-[[package]]
-name = "sic_io"
-version = "0.14.0"
-dependencies = [
- "parameterized",
- "sic_core",
- "sic_testing",
- "thiserror",
-]
-
-[[package]]
-name = "sic_parser"
-version = "0.14.0"
-dependencies = [
- "parameterized",
- "pest",
- "pest_derive",
- "sic_core",
- "sic_image_engine",
- "sic_testing",
- "thiserror",
-]
-
-[[package]]
-name = "sic_testing"
-version = "0.14.0"
-dependencies = [
- "parameterized",
- "sic_core",
 ]
 
 [[package]]
