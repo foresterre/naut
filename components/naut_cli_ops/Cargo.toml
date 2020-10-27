@@ -1,6 +1,6 @@
 [package]
 name = "naut_cli_ops"
-version = "0.14.5"
+version = "0.14.6"
 authors = ["Martijn Gribnau <garm@ilumeo.com>"]
 description = "Component of the naut cli: parses images operations invoked from the cli."
 edition = "2018"
@@ -8,8 +8,8 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/foresterre/naut"
 
 [dependencies]
-naut_image_engine = { version = "=0.14.5", path = "../naut_image_engine" }
-naut_parser = { version = "=0.14.5", path = "../naut_parser" }
+naut_image_engine = { version = "=0.14.6", path = "../naut_image_engine" }
+naut_parser = { version = "=0.14.6", path = "../naut_parser" }
 
 clap = "2.33.3"
 strum = "0.19.5"
