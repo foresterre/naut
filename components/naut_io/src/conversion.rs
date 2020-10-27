@@ -1,8 +1,8 @@
 use crate::errors::SicIoError;
 use image::buffer::ConvertBuffer;
 use image::DynamicImage;
-use sic_core::image;
-use sic_core::image::GenericImageView;
+use naut_core::image;
+use naut_core::image::GenericImageView;
 use std::io::Write;
 
 #[derive(Clone, Copy, Debug)]
@@ -45,7 +45,7 @@ impl<'a> ConversionWriter<'a> {
             None => &self.image,
         };
 
-        // FIXME remove: https://github.com/foresterre/sic/issues/597
+        // FIXME remove: https://github.com/foresterre/naut/issues/597
         if std::env::var("SIC_AVIF_HACK").is_ok() {
             let avif_encoder = image::avif::AvifEncoder::new(writer);
             avif_encoder
@@ -118,7 +118,7 @@ mod tests {
     use std::fs::File;
     use std::io::{self, Read};
 
-    use sic_testing::{clean_up_output_path, setup_output_path, setup_test_image};
+    use naut_testing::{clean_up_output_path, setup_output_path, setup_test_image};
 
     use super::*;
 

@@ -1,13 +1,13 @@
-use sic_core::image::ImageError;
+use naut_core::image::ImageError;
 use std::path::PathBuf;
 use thiserror::Error;
 
 #[derive(Debug, Error)]
 pub enum SicIoError {
-    #[error("sic io error > {0}")]
+    #[error("naut io error > {0}")]
     ImageError(ImageError),
 
-    #[error("sic io error > {0}")]
+    #[error("naut io error > {0}")]
     Io(std::io::Error),
 
     #[error("{0}")]

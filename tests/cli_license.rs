@@ -12,7 +12,7 @@ fn run_license_command() -> Output {
 fn cli_license_starts_with() {
     let res = run_license_command();
 
-    let begin_text = "sic image tools license:";
+    let begin_text = "naut image tools license:";
 
     assert!(res.status.success());
     assert!(std::str::from_utf8(&res.stdout)

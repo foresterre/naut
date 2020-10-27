@@ -4,13 +4,13 @@ extern crate parameterized;
 use std::io::Read;
 use std::path::{Path, PathBuf};
 
-use sic_core::image;
+use naut_core::image;
 
-use sic::cli::app::{build_app_config, create_app as get_app}; // build_app_config
-use sic::cli::config::InputOutputMode;
-use sic::cli::pipeline::run_with_devices;
+use naut::cli::app::{build_app_config, create_app as get_app}; // build_app_config
+use naut::cli::config::InputOutputMode;
+use naut::cli::pipeline::run_with_devices;
 
-// copied from sic_lib::processor::mod_test_includes
+// copied from naut_lib::processor::mod_test_includes
 // I preferred to not make that module public (2018-11-28)
 // Originally named: setup_test_image.
 fn setup_input_path(test_image_path: &str) -> PathBuf {
@@ -19,7 +19,7 @@ fn setup_input_path(test_image_path: &str) -> PathBuf {
         .join(test_image_path)
 }
 
-// copied from sic_lib::processor::mod_test_includes
+// copied from naut_lib::processor::mod_test_includes
 // I preferred to not make that module public (2018-11-28)
 fn setup_output_path(test_output_path: &str) -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR"))
@@ -31,7 +31,7 @@ fn path_buf_str(pb: &PathBuf) -> &str {
     pb.to_str().unwrap()
 }
 
-// copied from sic_lib::processor::mod_test_includes
+// copied from naut_lib::processor::mod_test_includes
 // I preferred to not make that module public (2018-11-28)
 fn clean_up_output_path(test_output_path: &str) {
     std::fs::remove_file(setup_output_path(test_output_path))
@@ -91,7 +91,7 @@ mod convert_to_x {
         let output_path = setup_output_path(&["cli_convert_to_x_by_extension", ext].join("."));
 
         let args = vec![
-            "sic",
+            "naut",
             "--input",
             input_path.to_str().unwrap(),
             "--output",
@@ -120,7 +120,7 @@ mod convert_to_x_by_ff {
 
     fn args<'a>(which: &'a str, input: &'a PathBuf, output: &'a PathBuf) -> Vec<&'a str> {
         vec![
-            "sic",
+            "naut",
             "--output-format",
             which,
             "--input",
@@ -218,7 +218,7 @@ mod pnm_ascii_and_binary {
         ));
 
         let mut args = Vec::with_capacity(8);
-        args.push("sic");
+        args.push("naut");
         if is_ascii {
             args.push("--pnm-encoding-ascii");
         }
@@ -282,7 +282,7 @@ fn convert_jpeg_quality_different() {
     let out2 = setup_output_path("out_02_jpeg_2.jpeg");
 
     let args1 = vec![
-        "sic",
+        "naut",
         "--output-format",
         which,
         "--input",
@@ -292,7 +292,7 @@ fn convert_jpeg_quality_different() {
     ];
 
     let args2 = vec![
-        "sic",
+        "naut",
         "--jpeg-encoding-quality",
         "81",
         "--output-format",

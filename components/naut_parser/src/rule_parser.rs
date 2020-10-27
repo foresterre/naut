@@ -4,13 +4,13 @@ use super::Rule;
 use crate::errors::{OperationParamError, SicParserError};
 use crate::value_parser::ParseInputsFromIter;
 use pest::iterators::{Pair, Pairs};
-use sic_image_engine::engine::{EnvItem, Instr, ItemName};
+use naut_image_engine::engine::{EnvItem, Instr, ItemName};
 #[cfg(feature = "imageproc-ops")]
-use sic_image_engine::wrapper::draw_text_inner::DrawTextInner;
-use sic_image_engine::wrapper::filter_type::FilterTypeWrap;
-use sic_image_engine::wrapper::image_path::ImageFromPath;
-use sic_image_engine::wrapper::overlay::OverlayInputs;
-use sic_image_engine::ImgOp;
+use naut_image_engine::wrapper::draw_text_inner::DrawTextInner;
+use naut_image_engine::wrapper::filter_type::FilterTypeWrap;
+use naut_image_engine::wrapper::image_path::ImageFromPath;
+use naut_image_engine::wrapper::overlay::OverlayInputs;
+use naut_image_engine::ImgOp;
 
 // This function parses statements provided as a single 'script' to an image operations program.
 // An image operations program is currently a linear list of image operations which are applied
@@ -172,8 +172,8 @@ fn parse_overlay(pair: Pair<'_, Rule>) -> Result<Instr, SicParserError> {
 // - rule: 'named_value'; which: font(f) with f =: string (->into path); represents: which font file to use
 fn parse_draw_text(pair: Pair<'_, Rule>) -> Result<Instr, SicParserError> {
     use crate::named_value::parse_named_value;
-    use sic_core::image::Rgba;
-    use sic_image_engine::wrapper::font_options::{FontOptions, FontScale};
+    use naut_core::image::Rgba;
+    use naut_image_engine::wrapper::font_options::{FontOptions, FontScale};
 
     let mut pairs = pair.into_inner();
 
@@ -234,8 +234,8 @@ fn parse_draw_text(pair: Pair<'_, Rule>) -> Result<Instr, SicParserError> {
 mod tests {
     use crate::SICParser;
     use pest::Parser;
-    use sic_core::image::imageops::FilterType;
-    use sic_image_engine::engine::EnvItem;
+    use naut_core::image::imageops::FilterType;
+    use naut_image_engine::engine::EnvItem;
 
     use super::*;
 
@@ -365,18 +365,18 @@ mod tests {
     #[test]
     fn test_blur_with_int_accept() {
         let pairs = SICParser::parse(Rule::main, "blur 15;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Blur(15.0))],
             parse_image_operations(pairs).unwrap()
         );
     }
 
-    // related issue: https://github.com/foresterre/sic/issues/130
+    // related issue: https://github.com/foresterre/naut/issues/130
     #[test]
     fn test_blur_with_fp_accept() {
         let pairs = SICParser::parse(Rule::main, "blur 15.0;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Blur(15.0))],
             parse_image_operations(pairs).unwrap()
@@ -386,7 +386,7 @@ mod tests {
     #[test]
     fn test_blur_with_fp_neg_accept() {
         let pairs = SICParser::parse(Rule::main, "blur -15.0;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Blur(-15.0))],
             parse_image_operations(pairs).unwrap()
@@ -397,13 +397,13 @@ mod tests {
     #[should_panic]
     fn test_blur_with_fp_reject() {
         SICParser::parse(Rule::main, "blur 15.;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     fn test_crop_in_order_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "crop 1 2 3 4;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Crop((1, 2, 3, 4)))],
             parse_image_operations(pairs).unwrap()
@@ -420,7 +420,7 @@ mod tests {
         // rY = bottom right Y coordinate
 
         let pairs = SICParser::parse(Rule::main, "crop 1 1 1 1;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Crop((1, 1, 1, 1)))],
             parse_image_operations(pairs).unwrap()
@@ -430,7 +430,7 @@ mod tests {
     #[test]
     fn test_crop_zeros_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "crop 0 0 0 0;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Crop((0, 0, 0, 0)))],
             parse_image_operations(pairs).unwrap()
@@ -441,42 +441,42 @@ mod tests {
     #[should_panic]
     fn test_crop_args_negative_parse_err() {
         SICParser::parse(Rule::main, "crop -1 -1 -1 -1;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_crop_arg_negative_p1_parse_err() {
         SICParser::parse(Rule::main, "crop -1 0 0 0;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_crop_arg_negative_p2_parse_err() {
         SICParser::parse(Rule::main, "crop 0 -1 0 0;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_crop_arg_negative_p3_parse_err() {
         SICParser::parse(Rule::main, "crop 0 0 -1 0;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_crop_arg_negative_p4_parse_err() {
         SICParser::parse(Rule::main, "crop 0 0 0 -1;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     fn test_crop_arg_to_big_p4_parse_err() {
         // 4294967296 == std::u32::MAX + 1
         let pairs = SICParser::parse(Rule::main, "crop 0 0 0 4294967296")
-            .unwrap_or_else(|_| panic!("Unable to parse sic image operations script."));
+            .unwrap_or_else(|_| panic!("Unable to parse naut image operations script."));
 
         assert!(parse_image_operations(pairs).is_err())
     }
@@ -485,7 +485,7 @@ mod tests {
     fn test_crop_arg_just_in_range_p4_parse_ok() {
         // 4294967296 == std::u32::MAX
         let pairs = SICParser::parse(Rule::main, "crop 0 0 0 4294967295")
-            .unwrap_or_else(|_| panic!("Unable to parse sic image operations script."));
+            .unwrap_or_else(|_| panic!("Unable to parse naut image operations script."));
 
         assert_eq!(
             vec![Instr::Operation(ImgOp::Crop((0, 0, 0, std::u32::MAX,)))],
@@ -496,7 +496,7 @@ mod tests {
     #[test]
     fn test_contrast_single_stmt_int_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "contrast 15;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Contrast(15.0))],
             parse_image_operations(pairs).unwrap()
@@ -506,7 +506,7 @@ mod tests {
     #[test]
     fn test_contrast_single_stmt_f32_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "contrast 15.8;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Contrast(15.8))],
             parse_image_operations(pairs).unwrap()
@@ -549,7 +549,7 @@ mod tests {
         )]
         fn test_diff_ok(input: &str, expected_ops: Vec<Instr>) {
             let pairs = SICParser::parse(Rule::main, input)
-                .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+                .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
 
             assert_eq!(parse_image_operations(pairs).unwrap(), expected_ops);
         }
@@ -575,7 +575,7 @@ mod tests {
     #[test]
     fn test_brighten_pos_single_stmt_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "brighten 3579;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Brighten(3579))],
             parse_image_operations(pairs).unwrap()
@@ -585,7 +585,7 @@ mod tests {
     #[test]
     fn test_brighten_neg_single_stmt_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "brighten -3579;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Brighten(-3579))],
             parse_image_operations(pairs).unwrap()
@@ -596,7 +596,7 @@ mod tests {
     #[should_panic]
     fn test_filter3x3_triplets_f3_with_end_triplet_sep_fail() {
         SICParser::parse(Rule::main, "filter3x3 0 0 0 | 1 1 1 | 2 2 2 |")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
@@ -605,7 +605,7 @@ mod tests {
             Rule::main,
             "filter3x3 0 0.1 0.2 | 1.3 1.4 1.5 | 2.6 2.7 2.8",
         )
-        .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+        .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Filter3x3([
                 0.0, 0.1, 0.2, 1.3, 1.4, 1.5, 2.6, 2.7, 2.8
@@ -617,7 +617,7 @@ mod tests {
     #[test]
     fn test_filter3x3_triplets_f3_ensure_f32() {
         let pairs = SICParser::parse(Rule::main, "filter3x3 0 0 0 | 1 1 1 | 2 2 2")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Filter3x3([
                 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0
@@ -629,7 +629,7 @@ mod tests {
     #[test]
     fn test_filter3x3_triplets_f3_no_sep() {
         let pairs = SICParser::parse(Rule::main, "filter3x3 0 0 0 1 1 1 2 2 3.0")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Filter3x3([
                 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 2.0, 2.0, 3.0
@@ -641,7 +641,7 @@ mod tests {
     #[test]
     fn test_filter3x3_triplets_f3_end_op_sep() {
         let pairs = SICParser::parse(Rule::main, "filter3x3 0 0 0 1 1 1 2 2 3.0;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Filter3x3([
                 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 2.0, 2.0, 3.0
@@ -677,7 +677,7 @@ mod tests {
             Rule::main,
             "filter3x3 1.9 2 3 | 4 5.9 6 | 7 8 9.9;\nfilter3x3 10.9 2 3 4 11.9 6 7 8 12.9",
         )
-        .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+        .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
 
         assert_eq!(
             vec![
@@ -696,76 +696,76 @@ mod tests {
     #[should_panic]
     fn test_filter3x3_triplets_f3_require_spacing_on_triplet_sep_1() {
         SICParser::parse(Rule::main, "filter3x3 0 0.9 0 | 1 1.1 1|2.0 2 2")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_filter3x3_triplets_f3_require_spacing_on_triplet_sep_2() {
         SICParser::parse(Rule::main, "filter3x3 0 0.9 0 | 1 1.1 1 |2.0 2 2")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_filter3x3_triplets_f3_require_spacing_on_triplet_sep_3() {
         SICParser::parse(Rule::main, "filter3x3 0 0.9 0 | 1 1.1 1| 2.0 2 2")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_filter3x3_triplets_f3_require_spacing_on_triplet_sep_end_fail_1() {
         SICParser::parse(Rule::main, "filter3x3 0 0.9 0 | 1 1.1 1 | 2.0 2 2|")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_filter3x3_triplets_f3_require_spacing_on_triplet_sep_end_fail_2() {
         SICParser::parse(Rule::main, "filter3x3 0 0.9 0 | 1 1.1 1 | 2.0 2 2 | ")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_filter3x3_triplets_f3_require_all_triplet_sep_1() {
         SICParser::parse(Rule::main, "filter3x3 0 0.9 0 1 1.1 1 | 2.0 2 2 | ")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_filter3x3_triplets_f3_require_all_triplet_sep_2() {
         SICParser::parse(Rule::main, "filter3x3 0 0.9 0 | 1 1.1 1 2.0 2 2 | ")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_filter3x3_insufficient_args() {
         SICParser::parse(Rule::main, "filter3x3 0 0.9 0 | 1 1.1 1 999 | 2.0 2 2 | ")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_filter3x3_insufficient_triplet_count_4() {
         SICParser::parse(Rule::main, "filter3x3 0 0.9 0 | 1 2.2 3 | 2.0 2 2 | 0 1 2")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     #[should_panic]
     fn test_filter3x3_insufficient_triplet_count_2() {
         SICParser::parse(Rule::main, "filter3x3 0 0.9 0 | 1 2.2 3")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
     }
 
     #[test]
     fn test_flip_horizontal_single_stmt_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "flip-horizontal;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::FlipHorizontal)],
             parse_image_operations(pairs).unwrap()
@@ -782,7 +782,7 @@ mod tests {
     #[test]
     fn test_flip_vertical_single_stmt_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "flip-vertical;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::FlipVertical)],
             parse_image_operations(pairs).unwrap()
@@ -799,7 +799,7 @@ mod tests {
     #[test]
     fn test_hue_rotate_pos_single_stmt_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "hue-rotate 3579;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::HueRotate(3579))],
             parse_image_operations(pairs).unwrap()
@@ -809,7 +809,7 @@ mod tests {
     #[test]
     fn test_hue_rotate_neg_single_stmt_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "hue-rotate -3579;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::HueRotate(-3579))],
             parse_image_operations(pairs).unwrap()
@@ -819,7 +819,7 @@ mod tests {
     #[test]
     fn test_invert_single_stmt_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "invert;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Invert)],
             parse_image_operations(pairs).unwrap()
@@ -858,7 +858,7 @@ mod tests {
         )]
         fn test_overlay_ok(input: &str, expected_ops: Vec<Instr>) {
             let pairs = SICParser::parse(Rule::main, input)
-                .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+                .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
 
             assert_eq!(parse_image_operations(pairs).unwrap(), expected_ops);
         }
@@ -881,7 +881,7 @@ mod tests {
     #[test]
     fn test_resize_single_stmt_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "resize 99 88;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Resize((99, 88)))],
             parse_image_operations(pairs).unwrap()
@@ -891,7 +891,7 @@ mod tests {
     #[test]
     fn test_rotate90_single_stmt_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "rotate90;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Rotate90)],
             parse_image_operations(pairs).unwrap()
@@ -901,7 +901,7 @@ mod tests {
     #[test]
     fn test_rotate180_single_stmt_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "rotate180;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Rotate180)],
             parse_image_operations(pairs).unwrap()
@@ -911,7 +911,7 @@ mod tests {
     #[test]
     fn test_rotate270_single_stmt_parse_correct() {
         let pairs = SICParser::parse(Rule::main, "rotate270;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Rotate270)],
             parse_image_operations(pairs).unwrap()
@@ -921,7 +921,7 @@ mod tests {
     #[test]
     fn test_unsharpen_single_stmt_parse_correct_ints() {
         let pairs = SICParser::parse(Rule::main, "unsharpen 99 88;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Unsharpen((99.0, 88)))],
             parse_image_operations(pairs).unwrap()
@@ -931,7 +931,7 @@ mod tests {
     #[test]
     fn test_unsharpen_single_stmt_parse_correct_fp_int() {
         let pairs = SICParser::parse(Rule::main, "unsharpen 99.0 88;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Unsharpen((99.0, 88)))],
             parse_image_operations(pairs).unwrap()
@@ -941,7 +941,7 @@ mod tests {
     #[test]
     fn test_unsharpen_single_stmt_parse_correct_fp_int_neg() {
         let pairs = SICParser::parse(Rule::main, "unsharpen -99.0 -88;")
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![Instr::Operation(ImgOp::Unsharpen((-99.0, -88)))],
             parse_image_operations(pairs).unwrap()
@@ -960,7 +960,7 @@ mod tests {
             Rule::main,
             "blur 10;flip-horizontal;flip-vertical;resize 100 200;",
         )
-        .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+        .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![
                 Instr::Operation(ImgOp::Blur(10.0)),
@@ -978,7 +978,7 @@ mod tests {
             Rule::main,
             "flip-horizontal;flip-vertical;resize 100 200;blur 10;",
         )
-        .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+        .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![
                 Instr::Operation(ImgOp::FlipHorizontal),
@@ -996,7 +996,7 @@ mod tests {
             Rule::main,
             "flip-horizontal; flip-vertical; resize 100 200; blur 10;",
         )
-        .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+        .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![
                 Instr::Operation(ImgOp::FlipHorizontal),
@@ -1014,7 +1014,7 @@ mod tests {
             Rule::main,
             "flip-horizontal    ; flip-vertical   ;      resize 100 200; blur 10;",
         )
-        .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+        .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![
                 Instr::Operation(ImgOp::FlipHorizontal),
@@ -1032,7 +1032,7 @@ mod tests {
             Rule::main,
             "flip-horizontal;\nflip-vertical;\nresize 100 200;\nblur 10;",
         )
-        .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+        .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![
                 Instr::Operation(ImgOp::FlipHorizontal),
@@ -1050,7 +1050,7 @@ mod tests {
             Rule::main,
             "flip-horizontal; flip-vertical; resize 100 200; blur 10",
         )
-        .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+        .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![
                 Instr::Operation(ImgOp::FlipHorizontal),
@@ -1068,7 +1068,7 @@ mod tests {
             Rule::main,
             "flip-horizontal; flip-vertical;  resize 100 200;\nblur 10",
         )
-        .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+        .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
         assert_eq!(
             vec![
                 Instr::Operation(ImgOp::FlipHorizontal),
@@ -1293,8 +1293,8 @@ mod tests {
     #[cfg(feature = "imageproc-ops")]
     mod imageproc_ops_tests {
         use super::*;
-        use sic_core::image::Rgba;
-        use sic_image_engine::wrapper::font_options::{FontOptions, FontScale};
+        use naut_core::image::Rgba;
+        use naut_image_engine::wrapper::font_options::{FontOptions, FontScale};
         use std::path::PathBuf;
 
         #[test]
@@ -1303,7 +1303,7 @@ mod tests {
                 Rule::main,
                 r#"draw-text "my text" coord(0,1) rgba(10, 10, 255, 255) size(16.0) font("resources/font/Lato-Regular.ttf");"#,
             )
-            .unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
 
             let font_file = PathBuf::from("resources/font/Lato-Regular.ttf".to_string());
             let font_options = FontOptions::new(
@@ -1327,7 +1327,7 @@ mod tests {
             let pairs = SICParser::parse(
                 Rule::main,
                 r#"draw-text "my text" coord(0, 1) size(16.0) rgba(10, 10, 255, 255) font("resources/font/Lato-Regular.ttf");"#,
-            ).unwrap_or_else(|e| panic!("Unable to parse sic image operations script: {:?}", e));
+            ).unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
 
             let actual = parse_image_operations(pairs);
 

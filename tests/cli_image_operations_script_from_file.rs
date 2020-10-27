@@ -19,7 +19,7 @@ fn script_from_file_ok() {
 
 #[test]
 fn script_from_file_where_file_not_found() {
-    let script = r#""_.sic""#;
+    let script = r#""_.naut""#;
 
     let mut process = SicTestCommandBuilder::new()
         .input_from_resources(DEFAULT_IN)
@@ -34,7 +34,7 @@ fn script_from_file_where_file_not_found() {
 
 #[test]
 fn script_from_file_conflicting_args() {
-    let script_file = &[env!("CARGO_MANIFEST_DIR"), "/resources/script/emboss.sic"].concat();
+    let script_file = &[env!("CARGO_MANIFEST_DIR"), "/resources/script/emboss.naut"].concat();
     let script = r#""blur 1""#;
 
     let mut process = SicTestCommandBuilder::new()

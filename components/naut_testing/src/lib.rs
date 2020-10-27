@@ -42,12 +42,12 @@ pub fn clean_up_output_path(test_output_path: &str) {
         .expect("Unable to remove file after test.");
 }
 
-pub fn open_test_image<P: AsRef<Path>>(path: P) -> sic_core::image::DynamicImage {
-    sic_core::image::open(path.as_ref()).unwrap()
+pub fn open_test_image<P: AsRef<Path>>(path: P) -> naut_core::image::DynamicImage {
+    naut_core::image::open(path.as_ref()).unwrap()
 }
 
-pub fn image_eq<T: Into<sic_core::image::DynamicImage>>(left: T, right: T) -> bool {
-    use sic_core::image::GenericImageView;
+pub fn image_eq<T: Into<naut_core::image::DynamicImage>>(left: T, right: T) -> bool {
+    use naut_core::image::GenericImageView;
 
     let left = left.into();
     let right = right.into();

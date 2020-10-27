@@ -1,5 +1,5 @@
 use crate::errors::SicImageEngineError;
-use sic_core::image::imageops::FilterType;
+use naut_core::image::imageops::FilterType;
 use std::fmt::{Debug, Formatter};
 use std::hash::Hash;
 

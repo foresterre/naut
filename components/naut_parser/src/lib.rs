@@ -11,7 +11,7 @@ use pest::Parser;
 
 use crate::errors::SicParserError;
 use crate::rule_parser::parse_image_operations;
-use sic_image_engine::engine::Instr;
+use naut_image_engine::engine::Instr;
 
 pub mod errors;
 pub mod named_value;
@@ -34,8 +34,8 @@ pub fn parse_script(script: &str) -> Result<Vec<Instr>, SicParserError> {
 
 #[cfg(test)]
 mod tests {
-    use sic_image_engine::engine::Instr;
-    use sic_image_engine::ImgOp;
+    use naut_image_engine::engine::Instr;
+    use naut_image_engine::ImgOp;
 
     use super::*;
 

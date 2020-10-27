@@ -9,7 +9,7 @@ extern crate parameterized;
 
 use crate::errors::SicCliOpsError;
 use crate::operations::OperationId;
-use sic_image_engine::engine::Instr;
+use naut_image_engine::engine::Instr;
 use strum::VariantNames;
 
 pub mod errors;
@@ -75,11 +75,11 @@ mod tests {
 
     mod individual_args {
         use super::*;
-        use sic_image_engine::engine::EnvItem;
-        use sic_image_engine::wrapper::filter_type::FilterTypeWrap;
-        use sic_image_engine::wrapper::image_path::ImageFromPath;
-        use sic_image_engine::ImgOp;
-        use sic_testing::setup_test_image;
+        use naut_image_engine::engine::EnvItem;
+        use naut_image_engine::wrapper::filter_type::FilterTypeWrap;
+        use naut_image_engine::wrapper::image_path::ImageFromPath;
+        use naut_image_engine::ImgOp;
+        use naut_testing::setup_test_image;
 
         macro_rules! op {
             ($expr:expr) => {
@@ -176,9 +176,9 @@ mod tests {
         #[cfg(feature = "imageproc-ops")]
         mod imageproc_ops_tests {
             use super::*;
-            use sic_core::image::Rgba;
-            use sic_image_engine::wrapper::draw_text_inner::DrawTextInner;
-            use sic_image_engine::wrapper::font_options::{FontOptions, FontScale};
+            use naut_core::image::Rgba;
+            use naut_image_engine::wrapper::draw_text_inner::DrawTextInner;
+            use naut_image_engine::wrapper::font_options::{FontOptions, FontScale};
             use std::path::PathBuf;
 
             ide!();

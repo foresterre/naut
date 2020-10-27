@@ -4,9 +4,9 @@ use crate::cli::config::{
 use anyhow::{anyhow, bail};
 use arg_names::*;
 use clap::{App, AppSettings, Arg, ArgGroup, ArgMatches};
-use sic_cli_ops::create_image_ops;
-use sic_cli_ops::operations::OperationId;
-use sic_io::load::FrameIndex;
+use naut_cli_ops::create_image_ops;
+use naut_cli_ops::operations::OperationId;
+use naut_io::load::FrameIndex;
 use std::path::Path;
 use std::str::FromStr;
 use strum::VariantNames;
@@ -78,10 +78,10 @@ pub fn create_app(
     about: &'static str,
     help_ops: &'static str,
 ) -> App<'static, 'static> {
-    wrap_with(App::new("sic")
+    wrap_with(App::new("naut")
         .version(version)
         .about(about)
-        .after_help("For more information, visit: https://github.com/foresterre/sic")
+        .after_help("For more information, visit: https://github.com/foresterre/naut")
         .author("Martijn Gribnau <garm@ilumeo.com>")
 
         // settings
@@ -97,7 +97,7 @@ pub fn create_app(
         // organisational:
         .arg(Arg::with_name(ARG_LICENSE)
             .long("license")
-            .help("Displays the license of this piece of software (`sic`).")
+            .help("Displays the license of this piece of software (`naut`).")
             .takes_value(false)
             .conflicts_with_all(&[ARG_DEP_LICENSES, ARG_INPUT, ARG_OUTPUT, ARG_INPUT_GLOB, ARG_OUTPUT_GLOB]))
         .arg(Arg::with_name(ARG_DEP_LICENSES)
@@ -188,8 +188,8 @@ pub fn create_app(
 
         .arg(Arg::with_name(ARG_IMAGE_CRATE_FALLBACK)
             .long("enable-output-format-decider-fallback")
-            .help("[experimental] When this flag is set, sic will attempt to fallback to an alternative output format decider (image crate version), \
-            *if* sic's own decider can't find a suitable format. Setting this flag may introduce unwanted behaviour; use with caution."))
+            .help("[experimental] When this flag is set, naut will attempt to fallback to an alternative output format decider (image crate version), \
+            *if* naut's own decider can't find a suitable format. Setting this flag may introduce unwanted behaviour; use with caution."))
 
         // image-operations(script):
         .arg(Arg::with_name(ARG_APPLY_OPERATIONS)
@@ -447,11 +447,11 @@ pub fn build_app_config<'a>(matches: &'a ArgMatches) -> anyhow::Result<Config<'a
     // receive the amount of times --crop was defined, but rather all the separate provided values for
     // the name of the argument, we just know that for `crop` we have values 0,0,1,1.
     let program = if let Some(script) = matches.value_of(ARG_APPLY_OPERATIONS) {
-        sic_parser::parse_script(script)?
+        naut_parser::parse_script(script)?
     } else if let Some(path) = matches.value_of(ARG_OPERATIONS_SCRIPT) {
         let contents = std::fs::read_to_string(Path::new(path))
             .map_err(|err| anyhow::anyhow!("unable to read script file: {}", err))?;
-        sic_parser::parse_script(&contents)?
+        naut_parser::parse_script(&contents)?
     } else {
         create_image_ops(std::env::args())?
     };

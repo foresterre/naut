@@ -1,5 +1,5 @@
 use crate::named_value::NamedValueError;
-use sic_image_engine::errors::SicImageEngineError;
+use naut_image_engine::errors::SicImageEngineError;
 use thiserror::Error;
 
 #[derive(Debug, Error)]

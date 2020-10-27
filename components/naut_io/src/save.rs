@@ -1,7 +1,7 @@
 use std::io::Write;
 use std::path::Path;
 
-use sic_core::image;
+use naut_core::image;
 
 use crate::conversion::{AutomaticColorTypeAdjustment, ConversionWriter};
 use crate::errors::SicIoError;

@@ -1,12 +1,12 @@
 use crate::errors::SicParserError;
-use sic_image_engine::wrapper::filter_type::FilterTypeWrap;
-use sic_image_engine::wrapper::image_path::ImageFromPath;
+use naut_image_engine::wrapper::filter_type::FilterTypeWrap;
+use naut_image_engine::wrapper::image_path::ImageFromPath;
 use std::convert::TryFrom;
 use std::path::PathBuf;
 
 #[cfg(feature = "imageproc-ops")]
-use sic_image_engine::wrapper::draw_text_inner::DrawTextInner;
-use sic_image_engine::wrapper::overlay::OverlayInputs;
+use naut_image_engine::wrapper::draw_text_inner::DrawTextInner;
+use naut_image_engine::wrapper::overlay::OverlayInputs;
 
 /// The value parser module has a goal to parse image operation inputs.
 
@@ -328,8 +328,8 @@ impl ParseInputsFromIter for DrawTextInner {
         Self: std::marker::Sized,
     {
         use crate::named_value::NamedValue;
-        use sic_core::image::Rgba;
-        use sic_image_engine::wrapper::font_options::{FontOptions, FontScale};
+        use naut_core::image::Rgba;
+        use naut_image_engine::wrapper::font_options::{FontOptions, FontScale};
 
         let mut iter = iterable.into_iter();
 
@@ -369,7 +369,7 @@ impl ParseInputsFromIter for DrawTextInner {
 #[cfg(test)]
 mod tests_parse_from_iter {
     use super::*;
-    use sic_testing::*;
+    use naut_testing::*;
 
     macro_rules! assert_iter_impl {
         ($lhs_iter:expr, $rhs_iter:expr, $f:expr) => {
@@ -387,7 +387,7 @@ mod tests_parse_from_iter {
     #[test]
     fn a_f32() {
         let some: f32 = ParseInputsFromIter::parse(&["-1.03"]).unwrap();
-        sic_testing::approx_eq_f32!(some, -1.03f32)
+        naut_testing::approx_eq_f32!(some, -1.03f32)
     }
 
     mod tuple_u32_u32_u32_u32 {

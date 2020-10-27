@@ -1,8 +1,8 @@
 use std::path::Path;
 
-use sic_core::image::error::{ImageFormatHint, UnsupportedError};
-use sic_core::image::{ImageError, ImageFormat, ImageOutputFormat};
-use sic_io::errors::SicIoError;
+use naut_core::image::error::{ImageFormatHint, UnsupportedError};
+use naut_core::image::{ImageError, ImageFormat, ImageOutputFormat};
+use naut_io::errors::SicIoError;
 
 pub(crate) fn guess_output_by_identifier(id: &str) -> Result<ImageOutputFormat, SicIoError> {
     // HACK: image crate doesn't use identifiers, so we'll use an extension as identifier

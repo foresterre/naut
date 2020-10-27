@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use sic_core::image;
+use naut_core::image;
 
 use crate::errors::{FormatError, SicIoError};
 
@@ -88,7 +88,7 @@ impl EncodingFormatByIdentifier for DetermineEncodingFormat {
         match identifier.to_ascii_lowercase().as_str() {
             "avif" => {
                 // FIXME: Dirty hack
-                //  - https://github.com/foresterre/sic/issues/597
+                //  - https://github.com/foresterre/naut/issues/597
                 std::env::set_var("SIC_AVIF_HACK", "1");
                 Ok(image::ImageOutputFormat::Farbfeld)
             }

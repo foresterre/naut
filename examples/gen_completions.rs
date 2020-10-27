@@ -1,17 +1,17 @@
-extern crate sic;
+extern crate naut;
 
 const ABOUT: &str = include_str!("../resources/help-pages/about.txt");
 const HELP_OPERATIONS_AVAILABLE: &str =
     include_str!("../resources/help-pages/image_operations.txt");
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
-use sic::cli::app::create_app;
+use naut::cli::app::create_app;
 use std::str::FromStr;
 
 fn main() {
     let mut cli = create_app(VERSION, ABOUT, HELP_OPERATIONS_AVAILABLE);
 
-    let program_name = option_env!("SIC_COMPLETIONS_APP_NAME").unwrap_or("sic");
+    let program_name = option_env!("SIC_COMPLETIONS_APP_NAME").unwrap_or("naut");
 
     let out = option_env!("SIC_COMPLETIONS_OUT_DIR")
         .map(From::from)

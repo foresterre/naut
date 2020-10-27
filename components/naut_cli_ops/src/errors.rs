@@ -1,4 +1,4 @@
-use sic_parser::errors::SicParserError;
+use naut_parser::errors::SicParserError;
 use thiserror::Error;
 
 #[derive(Debug, Error)]

@@ -1,12 +1,12 @@
 use crate::errors::{InternalErrorSource, SicCliOpsError};
 use crate::TResult;
-use sic_image_engine::engine::{EnvItem, Instr};
-use sic_image_engine::wrapper::filter_type::FilterTypeWrap;
-use sic_image_engine::wrapper::image_path::ImageFromPath;
-use sic_image_engine::wrapper::overlay::OverlayInputs;
-use sic_image_engine::ImgOp;
-use sic_parser::errors::SicParserError;
-use sic_parser::value_parser::{Describable, ParseInputsFromIter};
+use naut_image_engine::engine::{EnvItem, Instr};
+use naut_image_engine::wrapper::filter_type::FilterTypeWrap;
+use naut_image_engine::wrapper::image_path::ImageFromPath;
+use naut_image_engine::wrapper::overlay::OverlayInputs;
+use naut_image_engine::ImgOp;
+use naut_parser::errors::SicParserError;
+use naut_parser::value_parser::{Describable, ParseInputsFromIter};
 use std::fmt::Debug;
 use std::str::FromStr;
 
@@ -127,7 +127,7 @@ impl OperationId {
             }
             #[cfg(feature = "imageproc-ops")]
             OperationId::DrawText => {
-                use sic_image_engine::wrapper::draw_text_inner::DrawTextInner;
+                use naut_image_engine::wrapper::draw_text_inner::DrawTextInner;
                 Instr::Operation(ImgOp::DrawText(parse_inputs_by_type!(
                     inputs,
                     DrawTextInner

@@ -7,8 +7,8 @@ use crate::cli::glob_base_dir::glob_builder_base;
 use anyhow::{bail, Context};
 use clap::ArgMatches;
 use globwalk::{FileType, GlobWalker};
-use sic_image_engine::engine::Instr;
-use sic_io::load::FrameIndex;
+use naut_image_engine::engine::Instr;
+use naut_io::load::FrameIndex;
 use std::path::PathBuf;
 
 #[derive(Debug, Clone)]
@@ -116,8 +116,8 @@ impl InputOutputMode {
 fn filter_unsupported_paths(paths: Vec<PathBuf>, fallback_enabled: bool) -> Vec<PathBuf> {
     use crate::cli::pipeline::fallback::guess_output_by_path;
     use crate::combinators::FallbackIf;
-    use sic_io::format::DetermineEncodingFormat;
-    use sic_io::format::EncodingFormatByExtension;
+    use naut_io::format::DetermineEncodingFormat;
+    use naut_io::format::EncodingFormatByExtension;
 
     let checker = DetermineEncodingFormat::default();
 
@@ -308,7 +308,7 @@ pub struct FormatEncodingSettings {
     pub jpeg_quality: u8,
     pub pnm_use_ascii_format: bool,
 
-    // Whether to fallback on the image crate to determine the output format if sic doesn't support it yet
+    // Whether to fallback on the image crate to determine the output format if naut doesn't support it yet
     pub image_output_format_fallback: bool,
 }
 
@@ -334,8 +334,8 @@ pub fn validate_jpeg_quality(quality: u8) -> anyhow::Result<u8> {
 mod tests {
     use std::str::FromStr;
 
-    use sic_image_engine::engine::Instr;
-    use sic_image_engine::ImgOp;
+    use naut_image_engine::engine::Instr;
+    use naut_image_engine::ImgOp;
 
     use super::*;
 

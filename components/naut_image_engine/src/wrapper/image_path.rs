@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use sic_io::load::{file_reader, load_image, ImportConfig};
+use naut_io::load::{file_reader, load_image, ImportConfig};
 
 use crate::errors::SicImageEngineError;
 
@@ -14,7 +14,7 @@ impl ImageFromPath {
         Self { path }
     }
 
-    pub fn open_image(&self) -> Result<sic_core::image::DynamicImage, SicImageEngineError> {
+    pub fn open_image(&self) -> Result<naut_core::image::DynamicImage, SicImageEngineError> {
         file_reader(self.path.as_path())
             .and_then(|mut file| load_image(&mut file, &ImportConfig::default()))
             .map_err(|_err| SicImageEngineError::LoadImageFromPath)
@@ -24,7 +24,7 @@ impl ImageFromPath {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use sic_testing::{image_eq, in_, open_test_image};
+    use naut_testing::{image_eq, in_, open_test_image};
 
     #[test]
     fn open_from_path() {

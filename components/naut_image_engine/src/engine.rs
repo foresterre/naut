@@ -2,8 +2,8 @@ use std::cmp::max;
 use std::collections::HashMap;
 use std::hash::Hash;
 
-use sic_core::image::imageops::{self, FilterType};
-use sic_core::image::{DynamicImage, GenericImageView, ImageBuffer, Rgba};
+use naut_core::image::imageops::{self, FilterType};
+use naut_core::image::{DynamicImage, GenericImageView, ImageBuffer, Rgba};
 
 use crate::errors::SicImageEngineError;
 use crate::wrapper::filter_type::FilterTypeWrap;
@@ -366,15 +366,15 @@ mod compatibility {
         fn raw_pixels(&self) -> Vec<u8>;
     }
 
-    impl RawPixels for sic_core::image::DynamicImage {
+    impl RawPixels for naut_core::image::DynamicImage {
         fn raw_pixels(&self) -> Vec<u8> {
             match self {
-                sic_core::image::DynamicImage::ImageLuma8(buffer) => buffer.to_vec(),
-                sic_core::image::DynamicImage::ImageLumaA8(buffer) => buffer.to_vec(),
-                sic_core::image::DynamicImage::ImageRgb8(buffer) => buffer.to_vec(),
-                sic_core::image::DynamicImage::ImageRgba8(buffer) => buffer.to_vec(),
-                sic_core::image::DynamicImage::ImageBgr8(buffer) => buffer.to_vec(),
-                sic_core::image::DynamicImage::ImageBgra8(buffer) => buffer.to_vec(),
+                naut_core::image::DynamicImage::ImageLuma8(buffer) => buffer.to_vec(),
+                naut_core::image::DynamicImage::ImageLumaA8(buffer) => buffer.to_vec(),
+                naut_core::image::DynamicImage::ImageRgb8(buffer) => buffer.to_vec(),
+                naut_core::image::DynamicImage::ImageRgba8(buffer) => buffer.to_vec(),
+                naut_core::image::DynamicImage::ImageBgr8(buffer) => buffer.to_vec(),
+                naut_core::image::DynamicImage::ImageBgra8(buffer) => buffer.to_vec(),
                 _ => unimplemented!(),
             }
         }
@@ -460,10 +460,10 @@ mod tests {
     use super::*;
     use crate::engine::compatibility::*;
     use crate::wrapper::image_path::ImageFromPath;
-    use sic_core::image::imageops::FilterType;
-    use sic_core::image::GenericImageView;
-    use sic_core::image::Rgba;
-    use sic_testing::*;
+    use naut_core::image::imageops::FilterType;
+    use naut_core::image::GenericImageView;
+    use naut_core::image::Rgba;
+    use naut_testing::*;
     use std::path::PathBuf;
 
     // output images during tests to verify the results visually
@@ -475,13 +475,13 @@ mod tests {
 
     fn setup_default_test_image() -> DynamicImage {
         const DEFAULT_TEST_IMAGE_PATH: &str = "unsplash_763569_cropped.jpg";
-        sic_testing::open_test_image(sic_testing::in_!(DEFAULT_TEST_IMAGE_PATH))
+        naut_testing::open_test_image(naut_testing::in_!(DEFAULT_TEST_IMAGE_PATH))
     }
 
     #[test]
     fn diff_check_out_pixels() {
         const LEFT: &str = "2x3_wrabaa.png";
-        let left = sic_testing::open_test_image(sic_testing::in_!(LEFT));
+        let left = naut_testing::open_test_image(naut_testing::in_!(LEFT));
         const RIGHT: &str = "3x2_wbaaba.png";
 
         let mut engine = ImageEngine::new(left);
@@ -544,7 +544,7 @@ mod tests {
             expected_width: u32,
             expected_height: u32,
         ) {
-            let left_img = sic_testing::open_test_image(sic_testing::in_!(left));
+            let left_img = naut_testing::open_test_image(naut_testing::in_!(left));
 
             let mut engine = ImageEngine::new(left_img);
             let out = engine.ignite(&[Instr::Operation(ImgOp::Diff(ImageFromPath::new(
@@ -815,8 +815,8 @@ mod tests {
 
     #[test]
     fn test_crop_ok_no_change() {
-        let img: DynamicImage = sic_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
-        let cmp: DynamicImage = sic_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
+        let img: DynamicImage = naut_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
+        let cmp: DynamicImage = naut_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
 
         let operation = ImgOp::Crop((0, 0, 2, 2));
 
@@ -834,8 +834,8 @@ mod tests {
 
     #[test]
     fn test_crop_ok_to_one_pixel() {
-        let img: DynamicImage = sic_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
-        let cmp: DynamicImage = sic_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
+        let img: DynamicImage = naut_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
+        let cmp: DynamicImage = naut_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
 
         let operation = ImgOp::Crop((0, 0, 1, 1));
 
@@ -862,8 +862,8 @@ mod tests {
 
     #[test]
     fn test_crop_ok_to_half_horizontal() {
-        let img: DynamicImage = sic_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
-        let cmp: DynamicImage = sic_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
+        let img: DynamicImage = naut_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
+        let cmp: DynamicImage = naut_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
 
         let operation = ImgOp::Crop((0, 0, 2, 1));
 
@@ -891,7 +891,7 @@ mod tests {
 
     #[test]
     fn test_crop_err_lx_larger_than_rx() {
-        let img: DynamicImage = sic_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
+        let img: DynamicImage = naut_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
 
         // not rx >= lx
         let operation = ImgOp::Crop((1, 0, 0, 0));
@@ -904,7 +904,7 @@ mod tests {
 
     #[test]
     fn test_crop_err_ly_larger_than_ry() {
-        let img: DynamicImage = sic_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
+        let img: DynamicImage = naut_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
 
         // not rx >= lx
         let operation = ImgOp::Crop((0, 1, 0, 0));
@@ -917,7 +917,7 @@ mod tests {
 
     #[test]
     fn test_crop_err_out_of_image_bounds_top_lx() {
-        let img: DynamicImage = sic_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
+        let img: DynamicImage = naut_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
 
         let operation = ImgOp::Crop((3, 0, 1, 1));
 
@@ -929,7 +929,7 @@ mod tests {
 
     #[test]
     fn test_crop_err_out_of_image_bounds_top_ly() {
-        let img: DynamicImage = sic_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
+        let img: DynamicImage = naut_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
 
         let operation = ImgOp::Crop((0, 3, 1, 1));
 
@@ -941,7 +941,7 @@ mod tests {
 
     #[test]
     fn test_crop_err_out_of_image_bounds_top_rx() {
-        let img: DynamicImage = sic_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
+        let img: DynamicImage = naut_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
 
         let operation = ImgOp::Crop((0, 0, 3, 1));
 
@@ -953,7 +953,7 @@ mod tests {
 
     #[test]
     fn test_crop_err_out_of_image_bounds_top_ry() {
-        let img: DynamicImage = sic_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
+        let img: DynamicImage = naut_testing::open_test_image(in_!("blackwhite_2x2.bmp"));
 
         let operation = ImgOp::Crop((0, 0, 1, 3));
 
@@ -1024,9 +1024,9 @@ mod tests {
 
     #[test]
     fn test_gray_scale() {
-        use sic_core::image::Pixel;
+        use naut_core::image::Pixel;
 
-        let img: DynamicImage = sic_testing::open_test_image(in_!("rainbow_8x6.bmp"));
+        let img: DynamicImage = naut_testing::open_test_image(in_!("rainbow_8x6.bmp"));
         let operation = ImgOp::GrayScale;
 
         let mut operator = ImageEngine::new(img);
@@ -1177,7 +1177,7 @@ mod tests {
         #[test]
         fn overlay_with_self_at_origin() {
             let img = setup_default_test_image();
-            let overlay = sic_testing::in_!("unsplash_763569_cropped.jpg");
+            let overlay = naut_testing::in_!("unsplash_763569_cropped.jpg");
 
             let mut engine = ImageEngine::new(img.clone());
             let res = engine.ignite(&[Instr::Operation(ImgOp::Overlay(OverlayInputs::new(
@@ -1199,7 +1199,7 @@ mod tests {
             let img = setup_default_test_image();
             let bounds = img.dimensions();
 
-            let overlay = sic_testing::in_!("unsplash_763569_cropped.jpg");
+            let overlay = naut_testing::in_!("unsplash_763569_cropped.jpg");
 
             let mut engine = ImageEngine::new(img.clone());
             let res = engine.ignite(&[Instr::Operation(ImgOp::Overlay(OverlayInputs::new(
@@ -1221,7 +1221,7 @@ mod tests {
             let img = setup_default_test_image();
             let bounds = img.dimensions();
 
-            let overlay = sic_testing::in_!("unsplash_763569_cropped.jpg");
+            let overlay = naut_testing::in_!("unsplash_763569_cropped.jpg");
 
             let mut engine = ImageEngine::new(img.clone());
             let res = engine.ignite(&[
@@ -1431,7 +1431,7 @@ mod tests {
         #[test]
         fn draw_text() {
             let img: DynamicImage =
-                DynamicImage::ImageRgb8(sic_core::image::RgbImage::new(200, 200));
+                DynamicImage::ImageRgb8(naut_core::image::RgbImage::new(200, 200));
 
             let font_file = Into::<PathBuf>::into(env!("CARGO_MANIFEST_DIR"))
                 .join("../../resources/font/Lato-Regular.ttf");

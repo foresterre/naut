@@ -3,8 +3,8 @@ use std::io::{BufReader, Cursor, Read};
 use std::path::Path;
 
 use crate::errors::SicIoError;
-use sic_core::image;
-use sic_core::image::{AnimationDecoder, ImageFormat};
+use naut_core::image;
+use naut_core::image::{AnimationDecoder, ImageFormat};
 
 /// Load an image using a reader.
 /// All images are currently loaded from memory.
@@ -119,7 +119,7 @@ mod tests {
     use super::*;
     use image::GenericImageView;
     use parameterized::parameterized;
-    use sic_testing::*;
+    use naut_testing::*;
 
     const GIF_LOOP: &str = "loop.gif";
     const GIF_NO_LOOP: &str = "noloop.gif";

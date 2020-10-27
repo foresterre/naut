@@ -7,13 +7,13 @@ use crate::cli::license::PrintTextFor;
 use crate::cli::pipeline::fallback::{guess_output_by_identifier, guess_output_by_path};
 use crate::combinators::FallbackIf;
 use anyhow::{anyhow, bail, Context};
-use sic_core::image;
-use sic_image_engine::engine::ImageEngine;
-use sic_io::conversion::AutomaticColorTypeAdjustment;
-use sic_io::format::{
+use naut_core::image;
+use naut_image_engine::engine::ImageEngine;
+use naut_io::conversion::AutomaticColorTypeAdjustment;
+use naut_io::format::{
     DetermineEncodingFormat, EncodingFormatByExtension, EncodingFormatByIdentifier, JPEGQuality,
 };
-use sic_io::{load, save};
+use naut_io::{load, save};
 
 pub mod fallback;
 
@@ -118,8 +118,8 @@ fn create_reader(io_device: &PathVariant) -> anyhow::Result<Box<dyn Read>> {
             "An input image should be given by providing a path using the input argument or \
                  by piping an image to the stdin."
         ),
-        PathVariant::StdStream => Ok(sic_io::load::stdin_reader()?),
-        PathVariant::Path(path) => Ok(sic_io::load::file_reader(path)?),
+        PathVariant::StdStream => Ok(naut_io::load::stdin_reader()?),
+        PathVariant::Path(path) => Ok(naut_io::load::file_reader(path)?),
     }
 }
 
