@@ -118,8 +118,8 @@ fn decode_png<R: Read>(
 mod tests {
     use super::*;
     use image::GenericImageView;
-    use parameterized::parameterized;
     use naut_testing::*;
+    use parameterized::parameterized;
 
     const GIF_LOOP: &str = "loop.gif";
     const GIF_NO_LOOP: &str = "noloop.gif";

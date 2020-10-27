@@ -3,7 +3,6 @@
 use super::Rule;
 use crate::errors::{OperationParamError, SicParserError};
 use crate::value_parser::ParseInputsFromIter;
-use pest::iterators::{Pair, Pairs};
 use naut_image_engine::engine::{EnvItem, Instr, ItemName};
 #[cfg(feature = "imageproc-ops")]
 use naut_image_engine::wrapper::draw_text_inner::DrawTextInner;
@@ -11,6 +10,7 @@ use naut_image_engine::wrapper::filter_type::FilterTypeWrap;
 use naut_image_engine::wrapper::image_path::ImageFromPath;
 use naut_image_engine::wrapper::overlay::OverlayInputs;
 use naut_image_engine::ImgOp;
+use pest::iterators::{Pair, Pairs};
 
 // This function parses statements provided as a single 'script' to an image operations program.
 // An image operations program is currently a linear list of image operations which are applied
@@ -233,9 +233,9 @@ fn parse_draw_text(pair: Pair<'_, Rule>) -> Result<Instr, SicParserError> {
 #[cfg(test)]
 mod tests {
     use crate::SICParser;
-    use pest::Parser;
     use naut_core::image::imageops::FilterType;
     use naut_image_engine::engine::EnvItem;
+    use pest::Parser;
 
     use super::*;
 
@@ -548,8 +548,9 @@ mod tests {
             }
         )]
         fn test_diff_ok(input: &str, expected_ops: Vec<Instr>) {
-            let pairs = SICParser::parse(Rule::main, input)
-                .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
+            let pairs = SICParser::parse(Rule::main, input).unwrap_or_else(|e| {
+                panic!("Unable to parse naut image operations script: {:?}", e)
+            });
 
             assert_eq!(parse_image_operations(pairs).unwrap(), expected_ops);
         }
@@ -857,8 +858,9 @@ mod tests {
             }
         )]
         fn test_overlay_ok(input: &str, expected_ops: Vec<Instr>) {
-            let pairs = SICParser::parse(Rule::main, input)
-                .unwrap_or_else(|e| panic!("Unable to parse naut image operations script: {:?}", e));
+            let pairs = SICParser::parse(Rule::main, input).unwrap_or_else(|e| {
+                panic!("Unable to parse naut image operations script: {:?}", e)
+            });
 
             assert_eq!(parse_image_operations(pairs).unwrap(), expected_ops);
         }
