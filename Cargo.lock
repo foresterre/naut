@@ -152,6 +152,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "08c48aae112d48ed9f069b33538ea9e3e90aa263cfa3d1c24309612b1f7472de"
 
 [[package]]
+name = "cc"
+version = "1.0.61"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ed67cbde08356238e75fc4656be4749481eeffb09e19f320a25237d5221c985d"
+dependencies = [
+ "jobserver",
+]
+
+[[package]]
 name = "cfg-if"
 version = "0.1.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -498,6 +507,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "jobserver"
+version = "0.1.21"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5c71313ebb9439f74b00d9d2dcec36440beaf57a6aa0623068441dd7cd81a7f2"
+dependencies = [
+ "libc",
+]
+
+[[package]]
 name = "jpeg-decoder"
 version = "0.1.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -589,6 +607,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4d7559a8a40d0f97e1edea3220f698f78b1c5ab67532e49f68fde3910323b722"
 dependencies = [
  "adler",
+]
+
+[[package]]
+name = "nasm-rs"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a76f43faa0d13f9c89f72e1972446d558f003cfffb80eb16bb444231de1becd1"
+dependencies = [
+ "arrayvec",
+ "rayon",
 ]
 
 [[package]]
@@ -988,11 +1016,13 @@ dependencies = [
  "arg_enum_proc_macro",
  "arrayvec",
  "bitstream-io",
+ "cc",
  "cfg-if 0.1.10",
  "interpolate_name",
  "itertools",
  "libc",
  "log",
+ "nasm-rs",
  "noop_proc_macro 0.3.0",
  "num-derive",
  "num-traits",
@@ -1000,6 +1030,7 @@ dependencies = [
  "rand",
  "rand_chacha",
  "rayon",
+ "regex",
  "rustc_version",
  "simd_helpers",
  "thiserror",
@@ -1009,9 +1040,9 @@ dependencies = [
 
 [[package]]
 name = "ravif"
-version = "0.6.2"
+version = "0.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "718e4e74121da818c10444947c92c08afc31a292c438137d45f246bc5bedd00c"
+checksum = "87b0afb991d131f3a5c4d96a7eea311cae77ed2f9c9676203f3352b4b2d75977"
 dependencies = [
  "avif-serialize",
  "imgref",
