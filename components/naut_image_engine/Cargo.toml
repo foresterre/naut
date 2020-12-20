@@ -1,6 +1,6 @@
 [package]
 name = "naut_image_engine"
-version = "0.14.11"
+version = "0.14.13"
 authors = ["Martijn Gribnau <garm@ilumeo.com>"]
 description = "Component of the naut cli: provides abstractions for (the application of) image operations."
 edition = "2018"
@@ -8,8 +8,8 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/foresterre/naut"
 
 [dependencies]
-naut_core = { version = "0.14.11", path = "../naut_core" }
-naut_io = { version = "0.14.11", path = "../naut_io" }
+naut_core = { version = "0.14.13", path = "../naut_core" }
+naut_io = { version = "0.14.13", path = "../naut_io" }
 
 strum = "0.19.5"
 strum_macros = "0.19.4"
@@ -19,7 +19,7 @@ imageproc = { version = "0.21.0", optional = true }
 rusttype = { version = "0.9.2", optional = true }
 
 [dev-dependencies]
-naut_testing = { version = "0.14.11", path = "../naut_testing" }
+naut_testing = { version = "0.14.13", path = "../naut_testing" }
 
 [features]
 imageproc-ops = ["imageproc", "rusttype"]
