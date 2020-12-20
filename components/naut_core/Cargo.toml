@@ -1,6 +1,6 @@
 [package]
 name = "naut_core"
-version = "0.14.7"
+version = "0.14.8"
 authors = ["Martijn Gribnau <garm@ilumeo.com>"]
 description = "Component of the naut cli: re-exports global dependencies to sub-crates."
 edition = "2018"
