@@ -1,6 +1,6 @@
 [package]
 name = "naut_io"
-version = "0.14.13"
+version = "0.14.14"
 authors = ["Martijn Gribnau <garm@ilumeo.com>"]
 description = "Component of the naut cli: provides accessible i/o around image formats."
 edition = "2018"
@@ -8,10 +8,10 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/foresterre/naut"
 
 [dependencies]
-naut_core = { version = "0.14.13", path = "../naut_core" }
+naut_core = { version = "0.14.14", path = "../naut_core" }
 
 thiserror = "1.0.21"
 
 [dev-dependencies]
 parameterized = "0.2.0"
-naut_testing = { version = "0.14.13", path = "../naut_testing" }
+naut_testing = { version = "0.14.14", path = "../naut_testing" }
