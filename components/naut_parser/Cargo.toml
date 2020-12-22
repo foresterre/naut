@@ -1,6 +1,6 @@
 [package]
 name = "naut_parser"
-version = "0.14.15"
+version = "0.14.18"
 authors = ["Martijn Gribnau <garm@ilumeo.com>"]
 description = "Component of the naut cli: parser for the image operation script used by naut."
 edition = "2018"
@@ -8,15 +8,15 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/foresterre/naut"
 
 [dependencies]
-naut_core = { version = "0.14.15", path = "../naut_core" }
-naut_image_engine = { version = "0.14.15", path = "../naut_image_engine" }
+naut_core = { version = "0.14.18", path = "../naut_core" }
+naut_image_engine = { version = "0.14.18", path = "../naut_image_engine" }
 
 pest = "2.1.2"
 pest_derive = "2.0.1"
 thiserror = "1.0.21"
 
 [dev-dependencies]
-naut_testing = { version = "0.14.15", path = "../naut_testing" }
+naut_testing = { version = "0.14.18", path = "../naut_testing" }
 parameterized = "0.2.0"
 
 [features]
