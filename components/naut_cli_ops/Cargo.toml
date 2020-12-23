@@ -1,6 +1,6 @@
 [package]
 name = "naut_cli_ops"
-version = "0.14.19"
+version = "0.14.20"
 authors = ["Martijn Gribnau <garm@ilumeo.com>"]
 description = "Component of the naut cli: parses images operations invoked from the cli."
 edition = "2018"
@@ -8,8 +8,8 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/foresterre/naut"
 
 [dependencies]
-naut_image_engine = { version = "0.14.19", path = "../naut_image_engine" }
-naut_parser = { version = "0.14.19", path = "../naut_parser" }
+naut_image_engine = { version = "0.14.20", path = "../naut_image_engine" }
+naut_parser = { version = "0.14.20", path = "../naut_parser" }
 
 clap = "2.33.3"
 strum = "0.19.5"
@@ -17,8 +17,8 @@ strum_macros = "0.19.4"
 thiserror = "1.0.21"
 
 [dev-dependencies]
-naut_core = { version = "0.14.19", path = "../naut_core" }
-naut_testing = { version = "0.14.19", path = "../naut_testing" }
+naut_core = { version = "0.14.20", path = "../naut_core" }
+naut_testing = { version = "0.14.20", path = "../naut_testing" }
 parameterized = "0.2.0"
 
 [features]
