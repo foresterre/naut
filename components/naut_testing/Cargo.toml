@@ -1,6 +1,6 @@
 [package]
 name = "naut_testing"
-version = "0.14.19"
+version = "0.14.20"
 authors = ["Martijn Gribnau <garm@ilumeo.com>"]
 description = "Component of the naut cli: provides commonly used testing operations for naut crates."
 edition = "2018"
@@ -8,5 +8,5 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/foresterre/naut"
 
 [dependencies]
-naut_core = { version = "0.14.19", path = "../naut_core" }
+naut_core = { version = "0.14.20", path = "../naut_core" }
 parameterized  = "0.2.0"
