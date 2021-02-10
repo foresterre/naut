@@ -10,8 +10,6 @@ on:
     branches:
       - master
       - main
-  schedule:
-    - cron: '00 01 * * *'
 jobs:
   test:
     name: pipeline_run_tests
